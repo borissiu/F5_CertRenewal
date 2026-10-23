@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <title>Demo</title>
+  </head>
+
+  <body>
+    <p><h1 align="center">HKTDC Demo</h1></p>
+    <div class="container">
+      <div class="row">
+        <form method="post" action="/edit_cert/{{ clientsslProfileName }}/{{ partitionName }}/{{ certName }}" enctype="multipart/form-data">
+          <p><h5> Update Client SSL Profile : {{ clientsslProfileName }} </h5></p>
+          <dl><label for="fname">SSL Cert: <input type="file" name="sslcert" class="form-control" autocomplete="off" required></label></dl>
+          <dl><label for="fname">SSL Key: <input type="file" name="sslkey" class="form-control" autocomplete="off" required></label></dl>
+          <dl><label for="fname">Chain: <input type="file" name="sslchain" class="form-control" autocomplete="off" optional></label></dl>
+          <p><input type="submit" name="action" value="Update Cert" class="btn btn-info"></p>
+        </form>
+      </div>
+
+      {% if result == 200 %}
+        <h4>SSL Cert Update Successfully</h4>
+      <form action='/' method="POST">
+        <button type="submit" class="btn btn-info">BACK</button>
+      </form>
+      {% endif %}
+    </div>
+  
+  </body>
+</html>
