@@ -1,0 +1,40 @@
+<h4> Virtual Server: {{ vsName }}, Pool: {{ poolName }}</h4>
+
+<table class="table align-middle mb-0 bg-white">
+  <thead class="bg-light">
+    <tr>
+      {% for key in poolInfo['items'][0] %}
+        <th>{{ key }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+
+  <tbody>
+    <!-- <div class="d-flex align-items-center"> -->
+    {% for item in poolInfo['items'] %}
+    <tr>
+      {% for key in item %}
+        {% if key != "Edit Member" %}
+          {% if item[key] == "up" %}
+            <td><span class="badge badge-pill badge-success">{{ item[key] }}</span></td>
+          {% elif item[key] == "down" %}
+            <td><span class="badge badge-pill badge-danger">{{ item[key] }}</span></td>
+          {% elif item[key] == "disabled" %}
+            <td><span class="badge badge-pill badge-dark">{{ item[key] }}</span></td>
+          {% else %}
+            <td>{{ item[key] }}</td>
+          {% endif %}
+        {% elif item[key] == "Enable" %}
+          <form action="/edit_member/{{ item['Partition'] }}/{{ vsName }}/{{ poolName }}/{{ item['Member'] }}/{{ item['Edit Member'] }}", method="POST">
+            <td><button type="submit" class="btn btn-success">{{ item['Edit Member'] }}</button></td>
+          </form>
+        {% else %}
+          <form action="/edit_member/{{ item['Partition'] }}/{{ vsName }}/{{ poolName }}/{{ item['Member'] }}/{{ item['Edit Member'] }}", method="POST">
+            <td><button type="submit" class="btn btn-danger">{{ item['Edit Member'] }}</button></td>
+          </form>
+        {% endif %}
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
