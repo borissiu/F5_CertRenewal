@@ -1,0 +1,48 @@
+<h4>Virtual Servers List</h4>
+
+<table class="table align-middle mb-0 bg-white">
+  <thead class="bg-light">
+    <tr>
+      {% for key in vsInfo['items'][0] %}
+        <th>{{ key }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+
+  <tbody>
+    <!-- <div class="d-flex align-items-center"> -->
+    {% for item in vsInfo['items'] %}
+    <tr>
+      {% for key in item %}
+        {% if key != 'Edit Pool' %}
+          {% if item[key] == 'enabled' %}
+            <td><span class="badge badge-pill badge-success">{{ item[key] }}</span></td>
+          {% elif item[key] == 'disabled' %}
+            <td><span class="badge badge-pill badge-dark">{{ item[key] }}</span></td>
+          {% elif key == 'Edit VS' and item['VS Status'] == 'enabled' %}
+            <form action="/edit_vs/{{ item['Partition'] }}/{{ item['Name'] }}/Enable", method="POST">
+              <td><button type="submit" class="btn btn-danger">Disable</button></td>
+            </form>
+          {% elif key == 'Edit VS' and item['VS Status'] == 'disabled' %}
+            <form action="/edit_vs/{{ item['Partition'] }}/{{ item['Name'] }}/Disable", method="POST">
+              <td><button type="submit" class="btn btn-success">Enable</button></td>
+            </form>
+          {% elif key == 'SSL_Cert' and item['SSL_Cert'] != 'none' %}
+          <form action="/edit_cert/{{ item['SSL_Cert'] }}", method="GET">
+            <td><button type="submit" class="btn btn-success">{{ item['SSL_Cert'] }}</button></td>
+          </form>
+          {% else %}
+            <td>{{ item[key] }}</td>
+          {% endif %}
+        {% else %}
+          <form action="/get_member/{{ item['Partition'] }}/{{ item['Name'] }}/{{ item['Pool'] }}", method="GET">
+            <td><button type="submit" class="btn btn-success">{{ item['Pool'] }}</button></td>
+          </form>
+        {% endif %}
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% extends "table_poolInfo.html" %}
